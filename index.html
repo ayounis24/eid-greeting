@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>تهنئة عيد الفطر</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <style>
+    body {
+      background-color: #000;
+      color: white;
+      text-align: center;
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    #video-container {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      margin: auto;
+    }
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 177.78%; /* 16:9 Aspect Ratio */
+    }
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      border: none;
+      z-index: 1;
+    }
+    #name-overlay {
+      position: absolute;
+      top: 30px;
+      right: 20px;
+      z-index: 2;
+      font-size: 28px;
+      color: #FFD700;
+      text-shadow: 2px 2px 5px #000;
+      touch-action: none;
+      user-select: none;
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      margin: 20px auto;
+      display: block;
+      width: 80%;
+      max-width: 300px;
+    }
+    .download-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #FFD700;
+      color: black;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>اكتب اسمك لتظهر التهنئة مخصصة لك</h2>
+<input type="text" id="username" placeholder="اكتب اسمك هنا" oninput="updateName()">
+
+<div id="video-container">
+  <div class="video-wrapper">
+    <iframe src="https://streamable.com/e/bhgaag" allowfullscreen></iframe>
+    <div id="name-overlay"></div>
+  </div>
+</div>
+
+<a href="https://srv-store6.gofile.io/download/aACEWG/burj-khalifa.mp4" class="download-btn" download>تحميل الفيديو</a>
+
+<script>
+  const overlay = document.getElementById('name-overlay');
+  const input = document.getElementById('username');
+
+  input.addEventListener('input', () => {
+    overlay.textContent = input.value;
+  });
+
+  // حركة ولمس
+  let startX = 0, startY = 0, initialX = 0, initialY = 0, scale = 1;
+
+  overlay.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 1) {
+      startX = e.touches[0].clientX - initialX;
+      startY = e.touches[0].clientY - initialY;
+    }
+  });
+
+  overlay.addEventListener('touchmove', function(e) {
+    if (e.touches.length === 1) {
+      initialX = e.touches[0].clientX - startX;
+      initialY = e.touches[0].clientY - startY;
+      overlay.style.transform = `translate(${initialX}px, ${initialY}px) scale(${scale})`;
+    }
+    if (e.touches.length === 2) {
+      let dx = e.touches[0].clientX - e.touches[1].clientX;
+      let dy = e.touches[0].clientY - e.touches[1].clientY;
+      let distance = Math.sqrt(dx * dx + dy * dy);
+      scale = Math.min(3, Math.max(0.5, distance / 150));
+      overlay.style.transform = `translate(${initialX}px, ${initialY}px) scale(${scale})`;
+    }
+    e.preventDefault();
+  });
+</script>
+
+</body>
+</html>
